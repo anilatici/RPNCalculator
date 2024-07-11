@@ -11,8 +11,8 @@ public:
     RPNCalculator();
     ~RPNCalculator();
     public:
-    void push(T value) {
-        stack.push(value);
+    void push(T operand) {
+        stack.push(operand);
     }
     void add();
     void subtract();
@@ -113,11 +113,12 @@ void RPNCalculator<T>::negate() {
     T op1 = stack.top(); stack.pop();
     T result = -op1;
     stack.push(result);
-    logFile << "-" << op1 << " = " << result << "\n";
+    logFile << op1 << "(negated) = " << result << "\n";
 }
 
 template<class T>
 bool RPNCalculator<T>::isEmpty() {
+    logFile << "Stack is " << (stack.empty() ? "empty" : "not empty") << "\n";
     return stack.empty();
 }
 
@@ -132,6 +133,7 @@ T RPNCalculator<T>::value() {
     if (stack.empty()) {
         throw std::runtime_error("Stack is empty");
     }
+    logFile << stack.top() << "(top) = " << "\n";
     return stack.top();
 }
 
@@ -142,6 +144,7 @@ T RPNCalculator<T>::pop() {
     }
     T result = stack.top();
     stack.pop();
+    logFile << result << "(popped) = " << "\n";
     return result;
 }
 
