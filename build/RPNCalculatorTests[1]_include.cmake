@@ -1,0 +1,5 @@
+if(EXISTS "/Users/nebi/projects/cpp/build/RPNCalculatorTests[1]_tests.cmake")
+  include("/Users/nebi/projects/cpp/build/RPNCalculatorTests[1]_tests.cmake")
+else()
+  add_test(RPNCalculatorTests_NOT_BUILT RPNCalculatorTests_NOT_BUILT)
+endif()
