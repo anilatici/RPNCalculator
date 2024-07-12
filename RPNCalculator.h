@@ -17,14 +17,14 @@ public:
     void divide();
     void square();
     void negate();
-    bool isEmpty();
+    bool isEmpty() const;
     void clear();
-    T value();
+    T value() const;
     T pop();
 
 private:
     std::stack<T> stack;
-    std::ofstream logFile;
+    mutable std::ofstream logFile;
 };
 
 template<class T>
@@ -138,7 +138,7 @@ void RPNCalculator<T>::negate() {
 }
 
 template<class T>
-bool RPNCalculator<T>::isEmpty() {
+bool RPNCalculator<T>::isEmpty() const {
     bool empty = stack.empty();
     logFile << "Stack is " << (empty ? "empty" : "not empty") << "\n";
     logFile.flush();
@@ -153,7 +153,7 @@ void RPNCalculator<T>::clear() {
 }
 
 template<class T>
-T RPNCalculator<T>::value() {
+T RPNCalculator<T>::value() const {
     if (stack.empty()) {
         throw std::runtime_error("Stack is empty");
     }
