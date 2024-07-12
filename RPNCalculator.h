@@ -29,7 +29,7 @@ private:
 
 template<class T>
 RPNCalculator<T>::RPNCalculator() {
-    logFile.open("RPN.log", std::ios::out | std::ios::trunc);
+    logFile.open("RPN.log", std::ios::out | std::ios::app);
     if (!logFile) {
         throw std::runtime_error("Unable to open log file");
     }
@@ -157,10 +157,7 @@ T RPNCalculator<T>::value() {
     if (stack.empty()) {
         throw std::runtime_error("Stack is empty");
     }
-    T top = stack.top();
-    logFile << "Top value is " << top << "\n";
-    logFile.flush();
-    return top;
+    return stack.top();
 }
 
 template<class T>
