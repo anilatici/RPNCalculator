@@ -10,6 +10,7 @@ int main() {
     std::cout << "-Press 's' to square," << std::endl;
     std::cout << "-Press 'n' to negate," << std::endl;
     std::cout << "-Press 'p' to pop current value," << std::endl;
+    std::cout << "-Press 'g' to list what's inside the stack," << std::endl;
     std::cout << "-Press 'q' to quit." << std::endl << std::endl;
     std::cout << "Please enter numbers first to use the commands." << std::endl << std::endl;
     std::cout << "You can use the following operators:" << std::endl;
@@ -39,6 +40,8 @@ int main() {
             calculator.square();
         } else if (input == "n") {
             calculator.negate();
+        } else if (input == "g") {
+            calculator.getStack();
         } else if (input == "p") {
             if (!calculator.isEmpty()) {
                 calculator.pop();

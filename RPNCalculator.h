@@ -19,6 +19,7 @@ public:
     void negate();
     bool isEmpty() const;
     void clear();
+    void getStack();
     T value() const;
     T pop();
 
@@ -145,6 +146,19 @@ template<class T>
 void RPNCalculator<T>::clear() {
     stack = std::stack<T>();
     logFile << "Stack cleared\n";
+}
+
+template<class T>
+void RPNCalculator<T>::getStack() {
+    std::stack<T> tempStack = stack;
+    if (tempStack.size() == 0) {
+        std::cout << "Stack is empty." << std::endl;
+    }
+    while (!tempStack.empty()) {
+        std::cout << tempStack.top() << " ";
+        tempStack.pop();
+    }
+    std::cout << std::endl;
 }
 
 template<class T>
