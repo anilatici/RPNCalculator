@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <stdexcept>
+#include <vector>
 #include "RPNCalculator.h"
 
 int main() {
@@ -41,7 +43,16 @@ int main() {
         } else if (input == "n") {
             calculator.negate();
         } else if (input == "g") {
-            calculator.getStack();
+            if (calculator.isEmpty()) {
+                std::cout << "Stack is empty" << std::endl;
+                continue;
+            }
+            std::vector<double> stack = calculator.getStack();
+            std::cout << "Stack:" << std::endl;
+            for (int i = 0; i < stack.size(); i++) {
+                std::cout << stack[i] << std::endl;
+            }
+
         } else if (input == "p") {
             if (!calculator.isEmpty()) {
                 calculator.pop();
