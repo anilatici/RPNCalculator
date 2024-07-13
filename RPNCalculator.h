@@ -29,7 +29,7 @@ private:
 
 template<class T>
 RPNCalculator<T>::RPNCalculator() {
-    logFile.open("RPN.log", std::ios::out | std::ios::app);
+    logFile.open("RPN.log", std::ios::out | std::ios::trunc);
     if (!logFile) {
         throw std::runtime_error("Unable to open log file");
     }
