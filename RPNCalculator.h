@@ -51,6 +51,9 @@ void RPNCalculator<T>::push(T operand) {
 template<class T>
 void RPNCalculator<T>::add() {
     if (stack.size() < 2) {
+        if (stack.size() == 1) {
+            stack.pop();
+        }
         logFile << "Error: Not enough operands for addition\n";
         logFile.flush();
         return;
@@ -66,6 +69,9 @@ void RPNCalculator<T>::add() {
 template<class T>
 void RPNCalculator<T>::subtract() {
     if (stack.size() < 2) {
+        if (stack.size() == 1) {
+            stack.pop();
+        }
         logFile << "Error: Not enough operands for subtraction\n";
         logFile.flush();
         return;
@@ -81,6 +87,9 @@ void RPNCalculator<T>::subtract() {
 template<class T>
 void RPNCalculator<T>::multiply() {
     if (stack.size() < 2) {
+        if (stack.size() == 1) {
+            stack.pop();
+        }
         logFile << "Error: Not enough operands for multiplication\n";
         logFile.flush();
         return;
@@ -96,6 +105,9 @@ void RPNCalculator<T>::multiply() {
 template<class T>
 void RPNCalculator<T>::divide() {
     if (stack.size() < 2) {
+        if (stack.size() == 1) {
+            stack.pop();
+        }
         logFile << "Error: Not enough operands for division\n";
         logFile.flush();
         return;
