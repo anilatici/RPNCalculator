@@ -4,6 +4,9 @@
 #include <stack>
 #include <fstream>
 #include <stdexcept>
+#include <sstream>
+#include <vector>
+#include <string>
 
 template<class T>
 class RPNCalculator {
@@ -19,14 +22,27 @@ public:
     void negate();
     bool isEmpty() const;
     void clear();
-    void getStack();
+    std::vector<T> getStack() const;
     T value() const;
     T pop();
 
 private:
     std::stack<T> stack;
     mutable std::ofstream logFile;
+
+    void logOperation(const std::string& operation) const;
+    void logError(const std::string& message) const;
 };
+
+template<typename T>
+std::string to_string(const T& integer) {
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(6) << integer;
+    std::string result = oss.str();
+    result.erase(result.find_last_not_of('0') + 1, std::string::npos);
+    result.erase(result.find_last_not_of('.') + 1, std::string::npos);
+    return result;
+}
 
 template<class T>
 RPNCalculator<T>::RPNCalculator() {
@@ -54,16 +70,14 @@ void RPNCalculator<T>::add() {
         if (stack.size() == 1) {
             stack.pop();
         }
-        logFile << "Error: Not enough operands for addition\n";
-        logFile.flush();
+        logError("Not enough operands for addition");
         return;
     }
     T op2 = stack.top(); stack.pop();
     T op1 = stack.top(); stack.pop();
-    T result = op1 + op2;
-    stack.push(result);
-    logFile << op1 << " + " << op2 << " = " << result << "\n";
-    logFile.flush();
+    stack.push(op1 + op2);
+    std::string logMessage = to_string(op1) + " + " + to_string(op2);
+    logOperation(logMessage);
 }
 
 template<class T>
@@ -72,16 +86,14 @@ void RPNCalculator<T>::subtract() {
         if (stack.size() == 1) {
             stack.pop();
         }
-        logFile << "Error: Not enough operands for subtraction\n";
-        logFile.flush();
+        logError("Not enough operands for subtraction");
         return;
     }
     T op2 = stack.top(); stack.pop();
     T op1 = stack.top(); stack.pop();
-    T result = op1 - op2;
-    stack.push(result);
-    logFile << op1 << " - " << op2 << " = " << result << "\n";
-    logFile.flush();
+    stack.push(op1 - op2);
+    std::string logMessage = to_string(op1) + " - " + to_string(op2);
+    logOperation(logMessage);
 }
 
 template<class T>
@@ -90,16 +102,14 @@ void RPNCalculator<T>::multiply() {
         if (stack.size() == 1) {
             stack.pop();
         }
-        logFile << "Error: Not enough operands for multiplication\n";
-        logFile.flush();
+        logError("Not enough operands for multiplication");
         return;
     }
     T op2 = stack.top(); stack.pop();
     T op1 = stack.top(); stack.pop();
-    T result = op1 * op2;
-    stack.push(result);
-    logFile << op1 << " * " << op2 << " = " << result << "\n";
-    logFile.flush();
+    stack.push(op1 * op2);
+    std::string logMessage = to_string(op1) + " * " + to_string(op2);
+    logOperation(logMessage);
 }
 
 template<class T>
@@ -108,69 +118,60 @@ void RPNCalculator<T>::divide() {
         if (stack.size() == 1) {
             stack.pop();
         }
-        logFile << "Error: Not enough operands for division\n";
-        logFile.flush();
+        logError("Not enough operands for division");
         return;
     }
     T op2 = stack.top(); stack.pop();
     T op1 = stack.top(); stack.pop();
-    T result = op1 / op2;
-    stack.push(result);
-    logFile << op1 << " / " << op2 << " = " << result << "\n";
-    logFile.flush();
+    stack.push(op1 / op2);
+    std::string logMessage = to_string(op1) + " / " + to_string(op2);
+    logOperation(logMessage);
 }
 
 template<class T>
 void RPNCalculator<T>::square() {
     if (stack.empty()) {
-        logFile << "Error: Not enough operands for squaring\n";
-        logFile.flush();
+        logError("Not enough operands for squaring");
         return;
     }
     T op1 = stack.top(); stack.pop();
-    T result = op1 * op1;
-    stack.push(result);
-    logFile << op1 << "^2 = " << result << "\n";
-    logFile.flush();
+    stack.push(op1 * op1);
+    std::string logMessage = to_string(op1) + " squared";
+    logOperation(logMessage);
 }
 
 template<class T>
 void RPNCalculator<T>::negate() {
     if (stack.empty()) {
-        logFile << "Error: Not enough operands for negation\n";
-        logFile.flush();
+        logError("Not enough operands for negation");
         return;
     }
     T op1 = stack.top(); stack.pop();
-    T result = -op1;
-    stack.push(result);
-    logFile << op1 << " (negated) = " << result << "\n";
-    logFile.flush();
+    stack.push(-op1);
+    std::string logMessage = to_string(op1) + " negated";
+    logOperation(logMessage);
 }
 
 template<class T>
 bool RPNCalculator<T>::isEmpty() const {
-    bool empty = stack.empty();
-    return empty;
+    return stack.empty();
 }
 
 template<class T>
 void RPNCalculator<T>::clear() {
     stack = std::stack<T>();
-    logFile << "Stack cleared\n";
+    logOperation("clear");
 }
 
 template<class T>
-void RPNCalculator<T>::getStack() {
-    std::stack<T> tempStack = stack;
-    if (tempStack.size() == 0) {
-        std::cout << "Stack is empty." << std::endl;
+std::vector<T> RPNCalculator<T>::getStack() const {
+    std::stack<T> temporaryStack = stack;
+    std::vector<T> stackContents;
+    while (!temporaryStack.empty()) {
+        stackContents.push_back(temporaryStack.top());
+        temporaryStack.pop();
     }
-    while (!tempStack.empty()) {
-        std::cout << tempStack.top() << " ";
-        tempStack.pop();
-    }
-    std::cout << std::endl;
+    return stackContents;
 }
 
 template<class T>
@@ -189,6 +190,22 @@ T RPNCalculator<T>::pop() {
     T top = stack.top();
     stack.pop();
     return top;
+}
+
+template<class T>
+void RPNCalculator<T>::logOperation(const std::string& operation) const {
+    if (logFile.is_open()) {
+        logFile << operation << "\n";
+        logFile.flush();
+    }
+}
+
+template<class T>
+void RPNCalculator<T>::logError(const std::string& message) const {
+    if (logFile.is_open()) {
+        logFile << "Error: " << message << "\n";
+        logFile.flush();
+    }
 }
 
 #endif // RPNCALCULATOR_H
