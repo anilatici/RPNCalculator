@@ -6,11 +6,12 @@ Reverse Polish notaion (RPN) is a mathematical notation where the operators foll
 
 An example expression in Reverse Polish notation:
 
-Normal Expression:           RPN:
-2 + 4                        2 4 +
-3 * 5                        3 5 *
-10 / 2                       10 2 /
-9 - 4                        9 4 -
+Normal Expression: | RPN:
+------------------ | ---
+2 + 4              | 2 4 +
+3 * 5              | 3 5 *
+10 / 2             | 10 2 /
+9 - 4              | 9 4 -
 
 ## Features
 - Support for all basic arithmetic operations ( + , - , * , / )
