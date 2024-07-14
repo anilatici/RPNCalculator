@@ -31,8 +31,8 @@ Normal Expression: | RPN:
 - C++11 or higher
 
 ## Installation Guide
-- Clone the repo:
-``` git clone https://github.com/anilatici/RPNCalculator.git ```
-- Open a terminal in the directory and enter following:
-``` g++ -std=c++11 -o calculator main.cpp ```
+- Clone the repo: <br>
+``` git clone https://github.com/anilatici/RPNCalculator.git ```<br>
+- Open a terminal in the directory and enter following: <br>
+``` g++ -std=c++11 -o calculator main.cpp ``` <br>
 ``` ./calculator ```
